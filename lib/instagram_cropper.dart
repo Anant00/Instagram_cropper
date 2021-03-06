@@ -38,10 +38,7 @@ class _BlurViewWidgetState extends State<BlurViewWidget> {
         key: _key,
         gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
           new Factory<OneSequenceGestureRecognizer>(
-            () => new ScaleGestureRecognizer(),
-          ),
-          new Factory<OneSequenceGestureRecognizer>(
-            () => new PanGestureRecognizer(),
+            () => new EagerGestureRecognizer(),
           ),
         ].toSet(),
       );
