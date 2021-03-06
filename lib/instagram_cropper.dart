@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -35,6 +36,14 @@ class _BlurViewWidgetState extends State<BlurViewWidget> {
         viewType: 'plugins/instagram_cropper',
         onPlatformViewCreated: _onPlatformViewCreated,
         key: _key,
+        gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
+          new Factory<OneSequenceGestureRecognizer>(
+            () => new ScaleGestureRecognizer(),
+          ),
+          new Factory<OneSequenceGestureRecognizer>(
+            () => new PanGestureRecognizer(),
+          ),
+        ].toSet(),
       );
     }
     return const Text('iOS platform version is not implemented yet.');
