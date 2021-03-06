@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/instagram_cropper.iml" filepath="$PROJECT_DIR$/instagram_cropper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/instagram_cropper_android.iml" filepath="$PROJECT_DIR$/android/instagram_cropper_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/example/android/instagram_cropper_example_android.iml" filepath="$PROJECT_DIR$/example/android/instagram_cropper_example_android.iml" />
+    </modules>
+  </component>
+</project>
