@@ -11,7 +11,6 @@
         <io.brandie.brandie.instagram_cropper.InstagramLikeCropperView
             android:id="@+id/instacropper"
             android:layout_width="match_parent"
-            android:background="#eeee"
             android:layout_height="wrap_content"
             />
 

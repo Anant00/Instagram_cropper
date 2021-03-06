@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text("Testing"),
       ),
-      body: Stack(
+      body: Column(
         children: [
           AspectRatio(
             aspectRatio: 1,
@@ -101,10 +101,16 @@ class _MyHomePageState extends State<MyHomePage> {
               onBlurViewWidgetCreated: _onBlurViewWidgetCreated,
             ),
           ),
-          Positioned(
-            child: Icon(Icons.add),
-            bottom: 10,
-            left: 20,
+          Expanded(
+            child: ListView.builder(
+              itemCount: 10,
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text('$index'),
+                );
+              },
+            ),
           ),
         ],
       ),

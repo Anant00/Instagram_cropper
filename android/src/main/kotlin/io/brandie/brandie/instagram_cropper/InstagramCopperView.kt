@@ -13,9 +13,8 @@ import java.io.File
 
 class InstagramCopperView
 internal constructor(context: Context, id: Int, messenger: BinaryMessenger): PlatformView, MethodChannel.MethodCallHandler {
-    private var view: View = LayoutInflater.from(context).inflate(R.layout.insta_crop_view, null)
+    private var view: InstagramLikeCropperView = InstagramLikeCropperView(context)
     private val methodChannel: MethodChannel = MethodChannel(messenger, "plugins/instagram_cropper_$id")
-    private lateinit var instaCropperView: InstagramLikeCropperView
 
     init {
         methodChannel.setMethodCallHandler(this)
@@ -34,14 +33,13 @@ internal constructor(context: Context, id: Int, messenger: BinaryMessenger): Pla
     }
 
     private fun getView(methodCall: MethodCall ,result: Result) {
-        instaCropperView = view.findViewById(R.id.instacropper)
         result.success(null)
     }
 
     private fun setUri(methodCall: MethodCall, result: Result) {
         val uri = Uri.fromFile(File(methodCall.arguments as String))
         println("Image Uri is $uri")
-        instaCropperView.setImageUri(uri, "screenshot")
+        view.setImageUri(uri, "screenshot")
         result.success(null)
     }
 }
