@@ -5,8 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-typedef BlurViewWidgetCreatedCallback = void Function(
-    BlurViewWidgetController controller);
+typedef InstaCropViewCreatedCallback = void Function(
+    InstaCropViewController controller);
 
 class BlurViewWidget extends StatefulWidget {
   const BlurViewWidget({
@@ -14,7 +14,7 @@ class BlurViewWidget extends StatefulWidget {
     this.onBlurViewWidgetCreated,
   }) : super(key: key);
 
-  final BlurViewWidgetCreatedCallback onBlurViewWidgetCreated;
+  final InstaCropViewCreatedCallback onBlurViewWidgetCreated;
 
   @override
   State<StatefulWidget> createState() => _BlurViewWidgetState();
@@ -29,7 +29,6 @@ class _BlurViewWidgetState extends State<BlurViewWidget> {
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      print('creating platform view for android');
       return AndroidView(
         viewType: 'plugins/instagram_cropper',
         onPlatformViewCreated: _onPlatformViewCreated,
@@ -44,27 +43,29 @@ class _BlurViewWidgetState extends State<BlurViewWidget> {
   }
 
   void _onPlatformViewCreated(int id) {
-    print('creating platform view created');
     if (widget.onBlurViewWidgetCreated == null) {
       return;
     }
-    widget.onBlurViewWidgetCreated(BlurViewWidgetController._(id));
+    widget.onBlurViewWidgetCreated(InstaCropViewController._(id));
   }
 }
 
-class BlurViewWidgetController {
-  BlurViewWidgetController._(int id)
+class InstaCropViewController {
+  InstaCropViewController._(int id)
       : _channel = MethodChannel('plugins/instagram_cropper_$id');
 
   final MethodChannel _channel;
 
-  Future<void> getView() async {
-    return await _channel.invokeMethod('getView');
+  Future<void> getView(bool isDarkTheme) async {
+    return await _channel.invokeMethod('getView', isDarkTheme);
   }
 
-  Future<void> setUri(String value) async {
-    print('settings setUri');
+  Future<void> setUri(String imageUri, String imageName) async {
+    var params = {
+      "imageUri": imageUri,
+      "imageName": imageName,
+    };
 
-    return await _channel.invokeMethod('setUri', value);
+    return await _channel.invokeMethod('setUri', params);
   }
 }
