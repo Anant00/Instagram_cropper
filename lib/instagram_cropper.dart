@@ -21,21 +21,18 @@ class BlurViewWidget extends StatefulWidget {
 }
 
 class _BlurViewWidgetState extends State<BlurViewWidget> {
-  Key _key;
-
   @override
   void initState() {
     super.initState();
-    _key = Key('CropperView');
   }
 
   @override
   Widget build(BuildContext context) {
     if (defaultTargetPlatform == TargetPlatform.android) {
+      print('creating platform view for android');
       return AndroidView(
         viewType: 'plugins/instagram_cropper',
         onPlatformViewCreated: _onPlatformViewCreated,
-        key: _key,
         gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>[
           new Factory<OneSequenceGestureRecognizer>(
             () => new EagerGestureRecognizer(),
@@ -47,6 +44,7 @@ class _BlurViewWidgetState extends State<BlurViewWidget> {
   }
 
   void _onPlatformViewCreated(int id) {
+    print('creating platform view created');
     if (widget.onBlurViewWidgetCreated == null) {
       return;
     }
@@ -65,6 +63,8 @@ class BlurViewWidgetController {
   }
 
   Future<void> setUri(String value) async {
+    print('settings setUri');
+
     return await _channel.invokeMethod('setUri', value);
   }
 }

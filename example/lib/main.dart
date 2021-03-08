@@ -22,26 +22,48 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({Key key}) : super(key: key);
+
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  String imagePath;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          child: Text('Pick Image'),
-          onPressed: () async {
-            var imagePath = await getImage();
-            if (imagePath != null) {
-              Navigator.of(context).push(MaterialPageRoute(builder: (_) {
-                return MyHomePage(
+      body: Column(
+        children: [
+          imagePath != null
+              ? MyHomePage(
                   title: imagePath,
-                );
-              }));
-            }
-          },
-        ),
+                )
+              : AspectRatio(
+                  aspectRatio: 1,
+                  child: Container(
+                    color: Colors.black,
+                  ),
+                ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: ElevatedButton(
+                child: Text('Pick Image'),
+                onPressed: () async {
+                  var path = await getImage();
+                  if (path != null) {
+                    setState(() {
+                      imagePath = path;
+                    });
+                  }
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -81,6 +103,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  BlurViewWidgetController controller;
   @override
   void initState() {
     super.initState();
@@ -88,37 +111,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blueAccent,
-      appBar: AppBar(
-        title: Text("Testing"),
-      ),
-      body: Column(
-        children: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: BlurViewWidget(
-              onBlurViewWidgetCreated: _onBlurViewWidgetCreated,
-            ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text('$index'),
-                );
-              },
-            ),
-          ),
-        ],
+    if (controller != null) {
+      controller.setUri(widget.title);
+    }
+    print('settings ');
+    return AspectRatio(
+      aspectRatio: 1,
+      child: BlurViewWidget(
+        onBlurViewWidgetCreated: _onBlurViewWidgetCreated,
       ),
     );
   }
 
   void _onBlurViewWidgetCreated(BlurViewWidgetController controller) async {
-    await controller.getView();
+    print('settings controller set up $controller');
+    if (controller != null) {
+      this.controller = controller;
+    }
     await controller.setUri(widget.title);
   }
 }
