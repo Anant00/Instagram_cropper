@@ -34,7 +34,7 @@ internal constructor(private val context: Context, id: Int, messenger: BinaryMes
 
     private fun getView(methodCall: MethodCall ,result: Result) {
         val isDarkTheme = methodCall.arguments as Boolean
-        val color = if (isDarkTheme) R.color.colorBlack else R.color.colorWhite
+        val color = if (isDarkTheme) R.color.colorDarkGrey else R.color.colorWhite
         view.setBackgroundColor(ContextCompat.getColor(context, color))
         result.success(null)
     }
